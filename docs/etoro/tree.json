@@ -1,0 +1,167 @@
+{
+  "sha": "a18e511a7226df46a9a7587c6ce92582c3592ab2",
+  "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/a18e511a7226df46a9a7587c6ce92582c3592ab2",
+  "tree": [
+    {
+      "path": ".cursor-plugin",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "71f1996152122241cb7fbc1ad3b05831b5dc963c",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/71f1996152122241cb7fbc1ad3b05831b5dc963c"
+    },
+    {
+      "path": ".cursor-plugin/plugin.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42ab495b099a79cb17d373a2bd50d4938fcbe401",
+      "size": 751,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/42ab495b099a79cb17d373a2bd50d4938fcbe401"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e43b0f988953ae3a84b00331d0ccf5f7d51cb3cf",
+      "size": 10,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/e43b0f988953ae3a84b00331d0ccf5f7d51cb3cf"
+    },
+    {
+      "path": ".mcp.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69e6992d15cd09bdace34d4a164c3165bf44cfa4",
+      "size": 104,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/69e6992d15cd09bdace34d4a164c3165bf44cfa4"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd8e2c983d60d154b8ec6c52ad45a39cf28898a3",
+      "size": 1452,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/dd8e2c983d60d154b8ec6c52ad45a39cf28898a3"
+    },
+    {
+      "path": "rules",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "95f9e65cd2c7a205c2a03f285064094130a81823",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/95f9e65cd2c7a205c2a03f285064094130a81823"
+    },
+    {
+      "path": "rules/etoro-account-snapshot.mdc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3a206502ebd465fa9572e0676d9fc9271aa3513",
+      "size": 9106,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/d3a206502ebd465fa9572e0676d9fc9271aa3513"
+    },
+    {
+      "path": "rules/etoro-api-conventions.mdc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b109df943e7dc10c77a3de8a6c002814d52ee6df",
+      "size": 12298,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/b109df943e7dc10c77a3de8a6c002814d52ee6df"
+    },
+    {
+      "path": "rules/etoro-id-resolution.mdc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87bde17931bee41cc7fda123923a5d1c6e47cf93",
+      "size": 5405,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/87bde17931bee41cc7fda123923a5d1c6e47cf93"
+    },
+    {
+      "path": "rules/etoro-sso-identity.mdc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1aad7cf527119c21423ff5b9db135d4355817cb8",
+      "size": 4869,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/1aad7cf527119c21423ff5b9db135d4355817cb8"
+    },
+    {
+      "path": "skills",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "434e2ba1c191d7393b91254a66912ecb562bdac7",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/434e2ba1c191d7393b91254a66912ecb562bdac7"
+    },
+    {
+      "path": "skills/building-etoro-api-client",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6144fa38af08f7920062459fff5459659ef8bc91",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/6144fa38af08f7920062459fff5459659ef8bc91"
+    },
+    {
+      "path": "skills/building-etoro-api-client/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78cfa9c7595554c5e300c8e7d65155357ddf2202",
+      "size": 7281,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/78cfa9c7595554c5e300c8e7d65155357ddf2202"
+    },
+    {
+      "path": "skills/etoro-apps",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ab9cd22cb0ef1735f02970afdef923b016faa8ad",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/ab9cd22cb0ef1735f02970afdef923b016faa8ad"
+    },
+    {
+      "path": "skills/etoro-apps/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec1a54ae1bd63b0b4fa9fe75e27c78dcdc9e1e35",
+      "size": 5325,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/ec1a54ae1bd63b0b4fa9fe75e27c78dcdc9e1e35"
+    },
+    {
+      "path": "skills/handling-etoro-session-expiry",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d26e80669d6e713d21cb52c815c7740fe9de7c87",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/d26e80669d6e713d21cb52c815c7740fe9de7c87"
+    },
+    {
+      "path": "skills/handling-etoro-session-expiry/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a6ff65b0ea28c30f2afcf5248bde4d9c63335aa",
+      "size": 5132,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/3a6ff65b0ea28c30f2afcf5248bde4d9c63335aa"
+    },
+    {
+      "path": "skills/implementing-etoro-sso",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "68c79fd839022d95aaef6fe3075ba1e71c9b19e4",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/68c79fd839022d95aaef6fe3075ba1e71c9b19e4"
+    },
+    {
+      "path": "skills/implementing-etoro-sso/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae97a038a85cd198ae9cf8f3a6a5333ec510fa3a",
+      "size": 7916,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/ae97a038a85cd198ae9cf8f3a6a5333ec510fa3a"
+    },
+    {
+      "path": "skills/resolving-etoro-instruments",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "202e6a82aac749bc7eeb8c15e5d1ad86b448fd56",
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/trees/202e6a82aac749bc7eeb8c15e5d1ad86b448fd56"
+    },
+    {
+      "path": "skills/resolving-etoro-instruments/SKILL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5124476fe585030ab118ec8cb3b8e83fd5d3809",
+      "size": 6092,
+      "url": "https://api.github.com/repos/etoro-builders/etoro-cursor-plugin/git/blobs/a5124476fe585030ab118ec8cb3b8e83fd5d3809"
+    }
+  ],
+  "truncated": false
+}

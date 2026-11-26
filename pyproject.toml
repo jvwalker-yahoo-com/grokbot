@@ -1,0 +1,33 @@
+[project]
+name = "crokbot-trading"
+version = "0.2.0"
+description = "24/7 AI trading desk (BTCUSDT & ETHUSDT with ETH/BTC regime filter): code computes state, Jev judges, policy acts, deterministic risk gates, execution places orders."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.28",
+    "pydantic>=2.0",
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "httpx>=0.26.0",
+]
+
+[project.scripts]
+crokbot = "crokbot.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["crokbot*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

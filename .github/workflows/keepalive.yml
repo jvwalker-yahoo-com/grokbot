@@ -1,0 +1,29 @@
+name: Render Keep-Alive Cron
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target Render URL to ping'
+        required: false
+        default: ''
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping GrokBot Health Endpoint
+        env:
+          DEFAULT_URL: "https://grokbot-trading-desk.onrender.com"
+          SECRET_URL: ${{ secrets.RENDER_APP_URL }}
+          INPUT_URL: ${{ github.event.inputs.target_url }}
+        run: |
+          TARGET="${INPUT_URL:-${SECRET_URL:-$DEFAULT_URL}}"
+          TARGET="${TARGET%/}"
+          echo "Pinging $TARGET/api/health at $(date -u)..."
+          HTTP_STATUS=$(curl -s -o /tmp/health.json -w "%{http_code}" -m 30 "$TARGET/api/health" || true)
+          echo "HTTP status: ${HTTP_STATUS:-000}"
+          cat /tmp/health.json || true

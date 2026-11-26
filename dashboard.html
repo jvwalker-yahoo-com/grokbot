@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrokBot Pro Day-Trader Terminal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-base: #0b0e14;
+            --bg-panel: #121722;
+            --bg-card: #182030;
+            --border-color: #232d42;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --green: #10b981;
+            --green-glow: rgba(16, 185, 129, 0.2);
+            --red: #f43f5e;
+            --red-glow: rgba(244, 63, 94, 0.2);
+            --blue: #38bdf8;
+            --yellow: #fbbf24;
+            --purple: #a855f7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            font-size: 13px;
+        }
+
+        /* Top Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0f141f;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .brand-section { display: flex; align-items: center; gap: 14px; }
+        .brand-logo { font-size: 17px; font-weight: 800; letter-spacing: 1px; color: var(--blue); }
+        .badge {
+            display: inline-block; padding: 3px 8px; border-radius: 4px;
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+        }
+        .badge-live { background: var(--green-glow); color: var(--green); border: 1px solid var(--green); }
+        .badge-killed { background: var(--red-glow); color: var(--red); border: 1px solid var(--red); }
+        .badge-paper { background: rgba(56, 189, 248, 0.15); color: var(--blue); border: 1px solid var(--blue); }
+        .badge-jev { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid var(--purple); }
+
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        .btn-kill {
+            background: var(--red); color: white; border: none; padding: 6px 14px;
+            border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .btn-kill:hover { background: #e11d48; box-shadow: 0 0 10px var(--red-glow); }
+        .btn-export {
+            background: #1e293b; color: var(--text-main); border: 1px solid #334155;
+            padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer;
+        }
+        .btn-export:hover { background: #334155; }
+
+        /* KPI Banner */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            padding: 14px 20px;
+        }
+        .kpi-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .kpi-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; font-weight: 600; }
+        .kpi-value { font-size: 18px; font-weight: 800; }
+        .text-green { color: var(--green); }
+        .text-red { color: var(--red); }
+        .text-blue { color: var(--blue); }
+
+        /* Grid Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 14px;
+            padding: 0 20px 20px 20px;
+        }
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .panel-header {
+            background: #151c2a;
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Charts & Teles */
+        .chart-container { height: 260px; padding: 10px; position: relative; }
+        .depth-row { display: flex; justify-content: space-between; padding: 6px 10px; border-bottom: 1px dashed #1e2638; }
+        .depth-bar { height: 4px; border-radius: 2px; margin-top: 4px; }
+
+        /* Jev Telemetry */
+        .jev-box { padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+        .bot-card { background: var(--bg-card); padding: 8px 10px; border-radius: 4px; border-left: 3px solid var(--blue); }
+        .confidence-meter { height: 6px; background: #26334d; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+        .confidence-fill { height: 100%; width: 0%; background: var(--green); transition: width 0.3s; }
+
+        /* Trades Blotter Table */
+        .blotter-controls {
+            display: flex; gap: 10px; padding: 8px 12px; background: #131926;
+            border-bottom: 1px solid var(--border-color); flex-wrap: wrap; align-items: center;
+        }
+        .input-dark {
+            background: #0d121c; border: 1px solid var(--border-color); color: white;
+            padding: 5px 9px; border-radius: 4px; font-size: 12px;
+        }
+        .table-wrap { overflow-x: auto; max-height: 480px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th {
+            background: #141b27; color: var(--text-muted); font-size: 11px;
+            padding: 8px 10px; border-bottom: 1px solid var(--border-color); text-transform: uppercase;
+            position: sticky; top: 0; z-index: 10;
+        }
+        td { padding: 7px 10px; border-bottom: 1px solid #1a2233; font-family: ui-monospace, monospace; font-size: 12px; }
+        tr:hover { background-color: rgba(56, 189, 248, 0.04); }
+        .new-row { animation: flashGlow 1.2s ease-out; }
+        @keyframes flashGlow {
+            0% { background-color: rgba(16, 185, 129, 0.4); }
+            100% { background-color: transparent; }
+        }
+
+        .side-buy { color: var(--green); font-weight: bold; }
+        .side-sell { color: var(--red); font-weight: bold; }
+        .status-pill {
+            display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;
+        }
+        .pill-filled { background: var(--green-glow); color: var(--green); }
+        .pill-rejected { background: var(--red-glow); color: var(--red); }
+        .pill-cancelled { background: rgba(251, 191, 36, 0.15); color: var(--yellow); }
+        .pill-new { background: rgba(56, 189, 248, 0.15); color: var(--blue); }
+
+        /* Manual Order Ticket */
+        .order-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; }
+        .btn-order-buy { background: var(--green); color: white; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-order-sell { background: var(--red); color: white; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header>
+        <div class="brand-section">
+            <div class="brand-logo">⚡ GROKBOT PRO TRADER</div>
+            <span id="desk-status-badge" class="badge badge-live">DESK ACTIVE</span>
+            <span id="broker-badge" class="badge badge-paper">PAPER SIM</span>
+            <span id="trust-badge" class="badge badge-paper">STAGE: PAPER</span>
+            <span class="badge badge-jev">JEV ROUTER ACTIVE (CONF ≥ 0.60)</span>
+        </div>
+        <div class="header-controls">
+            <span id="connection-status" style="color: var(--green); font-size: 11px;">● WEBSOCKET CONNECTED</span>
+            <button class="btn-export" onclick="exportCSV()">⬇ EXPORT CSV</button>
+            <button class="btn-kill" onclick="triggerKillSwitch()">🚨 KILL SWITCH</button>
+        </div>
+    </header>
+
+    <!-- Key Performance Indicators Row -->
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <span class="kpi-label">Account Cash</span>
+            <span class="kpi-value text-blue" id="kpi-balance">€100,000.00</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Realized PnL</span>
+            <span class="kpi-value text-green" id="kpi-realized-pnl">+€0.00</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Win Rate</span>
+            <span class="kpi-value" id="kpi-win-rate">0.0% <span style="font-size: 11px; color: var(--text-muted);" id="kpi-w-l">(0W / 0L)</span></span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Profit Factor</span>
+            <span class="kpi-value" id="kpi-profit-factor">0.00</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Total Executed Trades</span>
+            <span class="kpi-value" id="kpi-total-trades">0</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Total Volume</span>
+            <span class="kpi-value" id="kpi-volume">€0.00</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">Max Risk Cap</span>
+            <span class="kpi-value text-blue" id="kpi-risk-cap">€300.00</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-label">ETH/BTC Filter Signal</span>
+            <span class="kpi-value text-green" id="kpi-eth-btc-filter" style="font-size: 14px;">0.05000 (NEUTRAL)</span>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="main-layout">
+        <!-- Left: Live Chart + All Trades Blotter -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Price & Execution Chart -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>LIVE TICK PRICE & TRADE EXECUTIONS (BTCUSDT & ETHUSDT)</span>
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <span id="chart-mid-price" style="font-weight: 800; color: var(--blue);">BTCUSDT: $65,000.00</span>
+                        <span id="chart-eth-price" style="font-weight: 800; color: var(--purple);">ETHUSDT: $3,250.00</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Full Trades Blotter -->
+            <div class="panel" style="flex: 1;">
+                <div class="panel-header">
+                    <span>COMPLETE TRADE BLOTTER (<span id="trade-count-display">0</span> TRADES)</span>
+                    <span style="font-size: 11px; color: var(--text-muted);">Real-time stream with millisecond latency</span>
+                </div>
+                <div class="blotter-controls">
+                    <input type="text" id="search-input" class="input-dark" placeholder="Search ID, reason, symbol..." oninput="filterTrades()">
+                    <select id="filter-symbol" class="input-dark" onchange="filterTrades()">
+                        <option value="">All Markets</option>
+                        <option value="btcusdt">BTCUSDT</option>
+                        <option value="ethusdt">ETHUSDT</option>
+                    </select>
+                    <select id="filter-side" class="input-dark" onchange="filterTrades()">
+                        <option value="">All Sides</option>
+                        <option value="buy">BUY Only</option>
+                        <option value="sell">SELL Only</option>
+                    </select>
+                    <select id="filter-bot" class="input-dark" onchange="filterTrades()">
+                        <option value="">All Bots</option>
+                        <option value="market_maker">Market Maker Bot</option>
+                        <option value="house">House Bot</option>
+                        <option value="directional">Directional Bot</option>
+                        <option value="manual">Manual Trader</option>
+                    </select>
+                    <select id="filter-status" class="input-dark" onchange="filterTrades()">
+                        <option value="">All Statuses</option>
+                        <option value="filled">FILLED</option>
+                        <option value="rejected">REJECTED</option>
+                        <option value="new">OPEN / NEW</option>
+                        <option value="cancelled">CANCELLED</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table id="trades-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>ID</th>
+                                <th>Bot</th>
+                                <th>Symbol</th>
+                                <th>Side</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Notional</th>
+                                <th>Realized PnL</th>
+                                <th>Status</th>
+                                <th>Execution Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trades-body">
+                            <!-- Injected live -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Market Depth, Jev Intelligence, Positions & Manual Order Entry -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- L2 Market Depth & Imbalance -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>L2 BOOK & SPREAD TELEMETRY</span>
+                    <span id="market-spread-bps" style="color: var(--yellow);">2.0 bps</span>
+                </div>
+                <div style="padding: 10px;">
+                    <div class="depth-row">
+                        <span style="color: var(--green);">Best Bid</span>
+                        <span id="l2-bid" style="font-weight: bold;">$64,999.50</span>
+                    </div>
+                    <div class="depth-row">
+                        <span style="color: var(--red);">Best Ask</span>
+                        <span id="l2-ask" style="font-weight: bold;">$65,000.50</span>
+                    </div>
+                    <div class="depth-row">
+                        <span>Order Imbalance</span>
+                        <span id="l2-imbalance">0.00</span>
+                    </div>
+                    <div class="depth-row">
+                        <span>Realized Volatility</span>
+                        <span id="l2-vol">1.50%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jev AI Intelligence Seat -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>JEV AI REASONING STREAM</span>
+                    <span class="badge badge-jev">CONF FLOOR: 0.60</span>
+                </div>
+                <div class="jev-box" id="jev-box">
+                    <div class="bot-card">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>Market Maker Bot</strong>
+                            <span id="mm-status" class="text-green">QUOTING (0.90)</span>
+                        </div>
+                        <div class="confidence-meter"><div class="confidence-fill" id="mm-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="bot-card">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>House Bot (Delta Neutral)</strong>
+                            <span id="house-status" class="text-blue">AT TARGET (0.90)</span>
+                        </div>
+                        <div class="confidence-meter"><div class="confidence-fill" id="house-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="bot-card">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>Directional Bot (BTC & ETH)</strong>
+                            <span id="dir-status" class="text-green">LONG EDGE (0.90)</span>
+                        </div>
+                        <div class="confidence-meter"><div class="confidence-fill" id="dir-bar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="bot-card" style="border-left-color: var(--purple);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>ETH/BTC Regime Filter</strong>
+                            <span id="pair-filter-status" class="text-green">ETH LONGS ALLOWED</span>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;" id="pair-filter-detail">
+                            Ratio: 0.05000 (0.0 bps) — Blocking ETH longs when ETH/BTC drops ≤ -15 bps
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Positions & Open Orders -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>OPEN POSITIONS & RISK EXPOSURE</span>
+                </div>
+                <div style="padding: 10px;" id="positions-box">
+                    <p style="color: var(--text-muted); font-size: 11px;">No active positions (Flat)</p>
+                </div>
+            </div>
+
+            <!-- Manual Order Pad -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>MANUAL TRADER INTERVENTION</span>
+                </div>
+                <div class="order-form">
+                    <select id="manual-symbol" class="input-dark">
+                        <option value="BTCUSDT">BTCUSDT</option>
+                        <option value="ETHUSDT">ETHUSDT</option>
+                    </select>
+                    <input type="number" id="manual-qty" class="input-dark" value="0.01" step="0.005" placeholder="Quantity">
+                    <button class="btn-order-buy" onclick="placeManualOrder('buy')">BUY MARKET</button>
+                    <button class="btn-order-sell" onclick="placeManualOrder('sell')">SELL MARKET</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        const isFileProtocol = window.location.protocol === 'file:' || !window.location.host;
+        const API_BASE = isFileProtocol ? 'http://127.0.0.1:8000' : '';
+        const WS_URL = isFileProtocol 
+            ? 'ws://127.0.0.1:8000/ws/stream' 
+            : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws/stream`;
+
+        let allTrades = [];
+        let priceChart = null;
+        let priceData = [];
+        let timeLabels = [];
+
+        // Initialize Chart
+        function initChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [{
+                        label: 'Mid Price',
+                        data: priceData,
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.05)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.1,
+                        pointRadius: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: { grid: { color: '#1e2638' }, ticks: { color: '#64748b' } },
+                        y: { grid: { color: '#1e2638' }, ticks: { color: '#64748b' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Render Trades Blotter Table
+        function renderTrades(tradesToRender) {
+            const tbody = document.getElementById('trades-body');
+            tbody.innerHTML = '';
+            document.getElementById('trade-count-display').innerText = tradesToRender.length;
+
+            tradesToRender.forEach((trade, idx) => {
+                const tr = document.createElement('tr');
+                if (idx === 0) tr.classList.add('new-row');
+
+                const timeStr = trade.timestamp ? trade.timestamp.split('T')[1].split('.')[0] : '--:--:--';
+                const sideClass = trade.side.toLowerCase() === 'buy' ? 'side-buy' : 'side-sell';
+                const pillClass = `pill-${(trade.status || 'new').toLowerCase()}`;
+                const pnlClass = trade.realized_pnl > 0 ? 'text-green' : (trade.realized_pnl < 0 ? 'text-red' : '');
+                const pnlPrefix = trade.realized_pnl > 0 ? '+' : '';
+
+                tr.innerHTML = `
+                    <td style="color: var(--text-muted);">${timeStr}</td>
+                    <td><strong style="color: var(--blue);">${trade.trade_id}</strong></td>
+                    <td style="color: #cbd5e1;">${trade.bot_name || 'desk'}</td>
+                    <td><strong>${trade.symbol}</strong></td>
+                    <td class="${sideClass}">${trade.side.toUpperCase()}</td>
+                    <td>${trade.order_type.toUpperCase()}</td>
+                    <td>${parseFloat(trade.qty).toFixed(4)}</td>
+                    <td>$${parseFloat(trade.price).toFixed(2)}</td>
+                    <td>$${parseFloat(trade.notional).toFixed(2)}</td>
+                    <td class="${pnlClass}">${pnlPrefix}$${parseFloat(trade.realized_pnl || 0).toFixed(2)}</td>
+                    <td><span class="status-pill ${pillClass}">${(trade.status || 'NEW').toUpperCase()}</span></td>
+                    <td style="color: var(--text-muted); max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${trade.reason || ''}">
+                        ${trade.reason || '--'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Filter Function
+        function filterTrades() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const symFilter = (document.getElementById('filter-symbol')?.value || '').toLowerCase();
+            const side = document.getElementById('filter-side').value.toLowerCase();
+            const bot = document.getElementById('filter-bot').value.toLowerCase();
+            const status = document.getElementById('filter-status').value.toLowerCase();
+
+            const filtered = allTrades.filter(t => {
+                if (symFilter && (t.symbol || '').toLowerCase() !== symFilter) return false;
+                if (side && t.side.toLowerCase() !== side) return false;
+                if (bot && (t.bot_name || '').toLowerCase() !== bot) return false;
+                if (status && (t.status || '').toLowerCase() !== status) return false;
+                if (search) {
+                    const matchId = (t.trade_id || '').toLowerCase().includes(search);
+                    const matchSym = (t.symbol || '').toLowerCase().includes(search);
+                    const matchReason = (t.reason || '').toLowerCase().includes(search);
+                    if (!matchId && !matchSym && !matchReason) return false;
+                }
+                return true;
+            });
+            renderTrades(filtered);
+        }
+
+        // Update KPIs
+        function updateMetrics(m) {
+            if (!m) return;
+            document.getElementById('kpi-balance').innerText = `€${m.current_balance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            const pnlEl = document.getElementById('kpi-realized-pnl');
+            const pnlPrefix = m.total_realized_pnl >= 0 ? '+' : '';
+            pnlEl.innerText = `${pnlPrefix}€${m.total_realized_pnl.toFixed(2)}`;
+            pnlEl.className = `kpi-value ${m.total_realized_pnl >= 0 ? 'text-green' : 'text-red'}`;
+
+            document.getElementById('kpi-win-rate').innerHTML = `${m.win_rate_pct.toFixed(1)}% <span style="font-size: 11px; color: var(--text-muted);">(${m.winning_trades}W / ${m.losing_trades}L)</span>`;
+            document.getElementById('kpi-profit-factor').innerText = m.profit_factor.toFixed(2);
+            document.getElementById('kpi-total-trades').innerText = m.total_trades;
+            document.getElementById('kpi-volume').innerText = `€${m.total_volume.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        }
+
+        // Update Positions Panel
+        function updatePositions(positions) {
+            const box = document.getElementById('positions-box');
+            if (!positions || Object.keys(positions).length === 0) {
+                box.innerHTML = '<p style="color: var(--text-muted); font-size: 11px;">No active positions (Flat / Delta-Neutral)</p>';
+                return;
+            }
+            let html = '';
+            for (const [symbol, qty] of Object.entries(positions)) {
+                const side = qty > 0 ? 'LONG' : 'SHORT';
+                const color = qty > 0 ? 'var(--green)' : 'var(--red)';
+                html += `
+                    <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e2638;">
+                        <span><strong>${symbol}</strong> <span style="color: ${color}; font-weight: bold;">${side}</span></span>
+                        <span>${parseFloat(qty).toFixed(4)} units</span>
+                    </div>
+                `;
+            }
+            box.innerHTML = html;
+        }
+
+        // Export to CSV
+        function exportCSV() {
+            window.location.href = `${API_BASE}/api/trades/export`;
+        }
+
+        // Trigger Emergency Kill Switch
+        async function triggerKillSwitch() {
+            if (!confirm("ENGAGE EMERGENCY KILL SWITCH?\nThis will cancel all open orders and halt trading immediately.")) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/emergency/kill`, { method: 'POST' });
+                const data = await res.json();
+                alert(data.message || "Kill switch engaged.");
+                document.getElementById('desk-status-badge').innerText = 'KILL SWITCH ENGAGED';
+                document.getElementById('desk-status-badge').className = 'badge badge-killed';
+            } catch (err) {
+                alert("Failed to engage kill switch: " + err);
+            }
+        }
+
+        // Manual Order Entry
+        async function placeManualOrder(side) {
+            const sym = document.getElementById('manual-symbol').value;
+            const qty = parseFloat(document.getElementById('manual-qty').value);
+            if (!qty || qty <= 0) { alert("Enter positive quantity"); return; }
+            try {
+                const res = await fetch(`${API_BASE}/api/orders/manual`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbol: sym, side: side, qty: qty, price: 0.0, order_type: 'market' })
+                });
+                const data = await res.json();
+                console.log("Manual order placed:", data);
+            } catch (err) {
+                alert("Error placing order: " + err);
+            }
+        }
+
+        function updatePairFilter(pf) {
+            if (!pf || pf.eth_btc_ratio === undefined) return;
+            const ratio = parseFloat(pf.eth_btc_ratio || 0.05).toFixed(5);
+            const bps = parseFloat(pf.eth_btc_change_bps || 0.0).toFixed(1);
+            const regime = (pf.eth_btc_regime || 'neutral').toLowerCase();
+            const kpiEl = document.getElementById('kpi-eth-btc-filter');
+            const statusEl = document.getElementById('pair-filter-status');
+            const detailEl = document.getElementById('pair-filter-detail');
+
+            if (regime === 'falling_sharply') {
+                if (kpiEl) { kpiEl.innerText = `${ratio} (ETH LONGS BLOCKED)`; kpiEl.className = 'kpi-value text-red'; }
+                if (statusEl) { statusEl.innerText = 'FALLING SHARPLY — ETH LONGS BLOCKED'; statusEl.className = 'text-red'; }
+            } else if (regime === 'rising_sharply') {
+                if (kpiEl) { kpiEl.innerText = `${ratio} (ETH STRONG)`; kpiEl.className = 'kpi-value text-green'; }
+                if (statusEl) { statusEl.innerText = 'RISING SHARPLY — ETH SHORTS BLOCKED'; statusEl.className = 'text-green'; }
+            } else {
+                if (kpiEl) { kpiEl.innerText = `${ratio} (NEUTRAL)`; kpiEl.className = 'kpi-value text-green'; }
+                if (statusEl) { statusEl.innerText = 'NEUTRAL — ETH LONGS ALLOWED'; statusEl.className = 'text-green'; }
+            }
+            if (detailEl) {
+                detailEl.innerText = `Ratio: ${ratio} (${bps >= 0 ? '+' : ''}${bps} bps) — Regime: ${regime.toUpperCase()}`;
+            }
+        }
+
+        // WebSocket Stream Connection
+        function connectWebSocket() {
+            const ws = new WebSocket(WS_URL);
+
+            ws.onopen = () => {
+                document.getElementById('connection-status').innerText = '● LIVE WEBSOCKET';
+                document.getElementById('connection-status').style.color = 'var(--green)';
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'snapshot') {
+                        allTrades = data.trades || [];
+                        updateMetrics(data.metrics);
+                        updatePositions(data.positions);
+                        if (data.market && data.market.pair_filter) updatePairFilter(data.market.pair_filter);
+                        filterTrades();
+                    } else if (data.type === 'trade_executed') {
+                        // Prepend new trade
+                        allTrades.unshift(data.trade);
+                        filterTrades();
+                        // Refetch summary metrics
+                        fetch(`${API_BASE}/api/summary`).then(r => r.json()).then(d => {
+                            updateMetrics(d.metrics);
+                            updatePositions(d.positions);
+                            if (d.pair_filter) updatePairFilter(d.pair_filter);
+                        });
+                    } else if (data.type === 'tick') {
+                        const sym = (data.symbol || '').toUpperCase();
+                        if (sym.startsWith('ETH')) {
+                            const ethEl = document.getElementById('chart-eth-price');
+                            if (ethEl) ethEl.innerText = `${sym}: $${data.mid_price.toFixed(2)}`;
+                        } else {
+                            // Update BTC chart
+                            const now = new Date().toLocaleTimeString();
+                            timeLabels.push(now);
+                            priceData.push(data.mid_price);
+                            if (timeLabels.length > 30) {
+                                timeLabels.shift();
+                                priceData.shift();
+                            }
+                            if (priceChart) priceChart.update();
+                            document.getElementById('chart-mid-price').innerText = `${sym}: $${data.mid_price.toFixed(2)}`;
+                            document.getElementById('l2-bid').innerText = `$${(data.bid_price || data.mid_price - 0.5).toFixed(2)}`;
+                            document.getElementById('l2-ask').innerText = `$${(data.ask_price || data.mid_price + 0.5).toFixed(2)}`;
+                            document.getElementById('market-spread-bps').innerText = `${(data.spread_bps || 2.0).toFixed(1)} bps`;
+                            document.getElementById('l2-imbalance').innerText = (data.order_imbalance || 0).toFixed(2);
+                            document.getElementById('l2-vol').innerText = `${((data.realized_vol || 0.015) * 100).toFixed(2)}%`;
+                        }
+                        if (data.eth_btc_ratio !== undefined) {
+                            updatePairFilter({
+                                eth_btc_ratio: data.eth_btc_ratio,
+                                eth_btc_change_bps: data.eth_btc_change_bps,
+                                eth_btc_regime: data.eth_btc_regime,
+                            });
+                        }
+                        if (data.positions) updatePositions(data.positions);
+                    } else if (data.type === 'kill_switch') {
+                        document.getElementById('desk-status-badge').innerText = 'KILL SWITCH ENGAGED';
+                        document.getElementById('desk-status-badge').className = 'badge badge-killed';
+                    }
+                } catch (e) {
+                    console.error("WS Parse error", e);
+                }
+            };
+
+            ws.onclose = () => {
+                document.getElementById('connection-status').innerText = '○ DISCONNECTED (RETRYING)';
+                document.getElementById('connection-status').style.color = 'var(--red)';
+                setTimeout(connectWebSocket, 2000);
+            };
+        }
+
+        // Init on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            connectWebSocket();
+            // Initial fetch
+            fetch(`${API_BASE}/api/trades?limit=100`).then(r => r.json()).then(d => {
+                allTrades = d.trades || [];
+                filterTrades();
+            });
+            fetch(`${API_BASE}/api/summary`).then(r => r.json()).then(d => {
+                updateMetrics(d.metrics);
+                updatePositions(d.positions);
+                if (d.notional_cap) document.getElementById('kpi-risk-cap').innerText = `€${d.notional_cap.toFixed(2)}`;
+                if (d.trust_stage) document.getElementById('trust-badge').innerText = `STAGE: ${d.trust_stage.toUpperCase()}`;
+            });
+        });
+    </script>
+</body>
+</html>

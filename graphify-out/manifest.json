@@ -1,0 +1,320 @@
+{
+  "crokbot/__init__.py": {
+    "mtime": 1793035973.2691495,
+    "seen": 1794476391.8580291,
+    "ast_hash": "387efd35fa3c2f586e02140213bb0f68",
+    "semantic_hash": "387efd35fa3c2f586e02140213bb0f68"
+  },
+  "crokbot/__main__.py": {
+    "mtime": 1793035973.3279417,
+    "seen": 1794476391.8580341,
+    "ast_hash": "510c857afa9f49b5de838de1f837e73b",
+    "semantic_hash": "510c857afa9f49b5de838de1f837e73b"
+  },
+  "crokbot/cli.py": {
+    "mtime": 1794153501.4395316,
+    "seen": 1794476391.8580365,
+    "ast_hash": "a834e15d704601c52829d4716b22b677",
+    "semantic_hash": "a834e15d704601c52829d4716b22b677"
+  },
+  "crokbot/config.py": {
+    "mtime": 1794153108.5673723,
+    "seen": 1794476391.8580375,
+    "ast_hash": "d1ce5131a25352d4b07cdf48c5465882",
+    "semantic_hash": "d1ce5131a25352d4b07cdf48c5465882"
+  },
+  "crokbot/dashboard/__init__.py": {
+    "mtime": 1793219003.8541427,
+    "seen": 1794476391.8580382,
+    "ast_hash": "96becff29d8e4ed03eea1d84915edf15",
+    "semantic_hash": "96becff29d8e4ed03eea1d84915edf15"
+  },
+  "crokbot/dashboard/server.py": {
+    "mtime": 1795676323.8151367,
+    "seen": 1795676350.54375,
+    "ast_hash": "442df0d9fd47cead2e19766758642c02",
+    "semantic_hash": ""
+  },
+  "crokbot/dashboard/store.py": {
+    "mtime": 1793219023.0731275,
+    "seen": 1794476391.8580399,
+    "ast_hash": "6cc800cc8457a2efaf580b9812461fe4",
+    "semantic_hash": "6cc800cc8457a2efaf580b9812461fe4"
+  },
+  "crokbot/desk/__init__.py": {
+    "mtime": 1793035973.3859527,
+    "seen": 1794476391.8580406,
+    "ast_hash": "da02286d1b64e61338e34491e15e0db4",
+    "semantic_hash": "da02286d1b64e61338e34491e15e0db4"
+  },
+  "crokbot/desk/bots.py": {
+    "mtime": 1795676099.8573277,
+    "seen": 1795676350.543753,
+    "ast_hash": "6680c3fd6ac9deec23162456d905b022",
+    "semantic_hash": ""
+  },
+  "crokbot/desk/orchestrator.py": {
+    "mtime": 1795676109.3822546,
+    "seen": 1795676350.543754,
+    "ast_hash": "0f532fca7586114be901aa99efcc490d",
+    "semantic_hash": ""
+  },
+  "crokbot/desk/trust.py": {
+    "mtime": 1793035973.3877592,
+    "seen": 1794476391.8580427,
+    "ast_hash": "277a9771507514590cb404b20a94e709",
+    "semantic_hash": "277a9771507514590cb404b20a94e709"
+  },
+  "crokbot/execution/__init__.py": {
+    "mtime": 1793035973.2991192,
+    "seen": 1794476391.8580437,
+    "ast_hash": "12b3243f3925a2f3ca789976289935ec",
+    "semantic_hash": "12b3243f3925a2f3ca789976289935ec"
+  },
+  "crokbot/execution/broker.py": {
+    "mtime": 1795676096.8772721,
+    "seen": 1795676350.5437567,
+    "ast_hash": "f1ef1ffc82a6f9f47825ff036b9d1f0d",
+    "semantic_hash": ""
+  },
+  "crokbot/execution/etoro.py": {
+    "mtime": 1795676230.4658885,
+    "seen": 1795676350.5437572,
+    "ast_hash": "744080eb8dd569517b242bf3c98ab088",
+    "semantic_hash": ""
+  },
+  "crokbot/execution/paper.py": {
+    "mtime": 1795676105.5912712,
+    "seen": 1795676350.5437582,
+    "ast_hash": "2f40abf942be6c7363b2786785e3ef56",
+    "semantic_hash": ""
+  },
+  "crokbot/jev/__init__.py": {
+    "mtime": 1793035973.354633,
+    "seen": 1794476391.8580463,
+    "ast_hash": "70c4d540a8cbdaee788471cf2750d42c",
+    "semantic_hash": "70c4d540a8cbdaee788471cf2750d42c"
+  },
+  "crokbot/jev/client.py": {
+    "mtime": 1795676101.0101426,
+    "seen": 1795676350.5437598,
+    "ast_hash": "a1dcffc369c2023dce140fbfe756c2e7",
+    "semantic_hash": ""
+  },
+  "crokbot/jev/parser.py": {
+    "mtime": 1795676098.8212311,
+    "seen": 1795676350.543761,
+    "ast_hash": "1e7364a9fd2b5719b708635fd26a5775",
+    "semantic_hash": ""
+  },
+  "crokbot/jev/questions.py": {
+    "mtime": 1794153133.451871,
+    "seen": 1794476391.858048,
+    "ast_hash": "b47f384a1442074ba2377fac7945eb26",
+    "semantic_hash": "b47f384a1442074ba2377fac7945eb26"
+  },
+  "crokbot/math/__init__.py": {
+    "mtime": 1793035973.3269408,
+    "seen": 1794476391.8580484,
+    "ast_hash": "cf7c9cb0fbbca1cec0292e2e5bef1918",
+    "semantic_hash": "cf7c9cb0fbbca1cec0292e2e5bef1918"
+  },
+  "crokbot/math/indicators.py": {
+    "mtime": 1794153090.223291,
+    "seen": 1794476391.8580494,
+    "ast_hash": "c68560d442c5fdbb10d6411f229b5c38",
+    "semantic_hash": "c68560d442c5fdbb10d6411f229b5c38"
+  },
+  "crokbot/policy/__init__.py": {
+    "mtime": 1793035973.3124459,
+    "seen": 1794476391.8580499,
+    "ast_hash": "5bddf1aefa744252a76338a8fd78a1c5",
+    "semantic_hash": "5bddf1aefa744252a76338a8fd78a1c5"
+  },
+  "crokbot/policy/compose.py": {
+    "mtime": 1795676102.1973226,
+    "seen": 1795676350.5437648,
+    "ast_hash": "f004168a407f0adf06934fe4b44f83ad",
+    "semantic_hash": ""
+  },
+  "crokbot/risk/__init__.py": {
+    "mtime": 1793035973.402706,
+    "seen": 1794476391.8580515,
+    "ast_hash": "8017dee4648a45ecd7e6519d4d50549b",
+    "semantic_hash": "8017dee4648a45ecd7e6519d4d50549b"
+  },
+  "crokbot/risk/engine.py": {
+    "mtime": 1795676097.918723,
+    "seen": 1795676350.5437665,
+    "ast_hash": "895ad427d1891310e1f3c061b73da191",
+    "semantic_hash": ""
+  },
+  "crokbot/state.py": {
+    "mtime": 1793035973.2681494,
+    "seen": 1794476391.858053,
+    "ast_hash": "6771aec7b31f259a67ac80a500f37511",
+    "semantic_hash": "6771aec7b31f259a67ac80a500f37511"
+  },
+  "crokbot_live_run.py": {
+    "mtime": 1795676237.8022368,
+    "seen": 1795676350.5437684,
+    "ast_hash": "acd08939cf92292f6b7ca27b6161edaa",
+    "semantic_hash": ""
+  },
+  "docs/etoro/tree.json": {
+    "mtime": 1793035973.4350808,
+    "seen": 1794476391.8580542,
+    "ast_hash": "a7ccc053320c3f9889c6cfe2fba7c6bd",
+    "semantic_hash": "a7ccc053320c3f9889c6cfe2fba7c6bd"
+  },
+  "pyproject.toml": {
+    "mtime": 1795676238.9247053,
+    "seen": 1795676350.54377,
+    "ast_hash": "e07d518e76b409902a9330d688315551",
+    "semantic_hash": ""
+  },
+  "tests/test_dashboard_api.py": {
+    "mtime": 1793219133.806523,
+    "seen": 1794476391.8580554,
+    "ast_hash": "5df0e5817843a41ff07de4ed7f73ade6",
+    "semantic_hash": "5df0e5817843a41ff07de4ed7f73ade6"
+  },
+  "tests/test_dashboard_store.py": {
+    "mtime": 1793219074.2687416,
+    "seen": 1794476391.8580563,
+    "ast_hash": "4dc49d6784cd66014f506508f04aab84",
+    "semantic_hash": "4dc49d6784cd66014f506508f04aab84"
+  },
+  "tests/test_desk.py": {
+    "mtime": 1793035973.5104663,
+    "seen": 1794476391.8580568,
+    "ast_hash": "a51f9a91cc2eca3901152a803b5ea94a",
+    "semantic_hash": "a51f9a91cc2eca3901152a803b5ea94a"
+  },
+  "tests/test_desk_instrumentation.py": {
+    "mtime": 1793219091.2022116,
+    "seen": 1794476391.8580575,
+    "ast_hash": "49be99f83d574351bb02878fdeae0678",
+    "semantic_hash": "49be99f83d574351bb02878fdeae0678"
+  },
+  "tests/test_e2e_dashboard.py": {
+    "mtime": 1793220781.0168264,
+    "seen": 1794476391.858058,
+    "ast_hash": "358956bf809921e3e646e97928766853",
+    "semantic_hash": "358956bf809921e3e646e97928766853"
+  },
+  "tests/test_indicators.py": {
+    "mtime": 1793035973.5114677,
+    "seen": 1794476391.8580587,
+    "ast_hash": "28e9aba9ea77896f5205f2474e0fabef",
+    "semantic_hash": "28e9aba9ea77896f5205f2474e0fabef"
+  },
+  "tests/test_pair_trading.py": {
+    "mtime": 1794153340.8917913,
+    "seen": 1794476391.8580592,
+    "ast_hash": "51e5875d6e49b87d7d65a71cf3ba4683",
+    "semantic_hash": "51e5875d6e49b87d7d65a71cf3ba4683"
+  },
+  "tests/test_paper.py": {
+    "mtime": 1793035973.5104663,
+    "seen": 1794476391.85806,
+    "ast_hash": "914e801ec781d55d1eb6d2ed5c3c3e51",
+    "semantic_hash": "914e801ec781d55d1eb6d2ed5c3c3e51"
+  },
+  "tests/test_parser.py": {
+    "mtime": 1793035973.5094626,
+    "seen": 1794476391.8580606,
+    "ast_hash": "2eb6f76e22369917c3a1a0c7f9ea855f",
+    "semantic_hash": "2eb6f76e22369917c3a1a0c7f9ea855f"
+  },
+  "tests/test_policy.py": {
+    "mtime": 1793035973.5084567,
+    "seen": 1794476391.858061,
+    "ast_hash": "4da63a114f807ba10bae9788ee6092ac",
+    "semantic_hash": "4da63a114f807ba10bae9788ee6092ac"
+  },
+  "tests/test_risk.py": {
+    "mtime": 1793263276.1735559,
+    "seen": 1794476391.8580618,
+    "ast_hash": "a26a795c1e84698a3471f4851e9b892d",
+    "semantic_hash": "a26a795c1e84698a3471f4851e9b892d"
+  },
+  "PROGRESS.md": {
+    "mtime": 1795676324.74713,
+    "seen": 1795676350.543782,
+    "ast_hash": "7fc8f45c15a62b7dd4cf7eeb60efc8f0",
+    "semantic_hash": ""
+  },
+  "dashboard.html": {
+    "mtime": 1794153561.6279547,
+    "seen": 1794476391.8580632,
+    "ast_hash": "3db2a491ed13d0c87936dad3338a36f2",
+    "semantic_hash": "3db2a491ed13d0c87936dad3338a36f2"
+  },
+  "docs/etoro/account-snapshot.md": {
+    "mtime": 1793035973.4350808,
+    "seen": 1794476391.8580637,
+    "ast_hash": "934138a06d6cf8e00cf5a20fcda32dc3",
+    "semantic_hash": "934138a06d6cf8e00cf5a20fcda32dc3"
+  },
+  "docs/etoro/api-conventions.md": {
+    "mtime": 1793035973.4370787,
+    "seen": 1794476391.858065,
+    "ast_hash": "31893b7982bd747ce1f88fa623d7065a",
+    "semantic_hash": "31893b7982bd747ce1f88fa623d7065a"
+  },
+  "docs/etoro/building-client.md": {
+    "mtime": 1793035973.4360812,
+    "seen": 1794476391.8580656,
+    "ast_hash": "e3da2cfd88729711d7b1d1391329c1d9",
+    "semantic_hash": "e3da2cfd88729711d7b1d1391329c1d9"
+  },
+  "docs/etoro/id-resolution.md": {
+    "mtime": 1793035973.4370787,
+    "seen": 1794476391.858066,
+    "ast_hash": "c196d36a0ec06275d022021c43ed1a28",
+    "semantic_hash": "c196d36a0ec06275d022021c43ed1a28"
+  },
+  "docs/superpowers/plans/2026-10-28-trading-dashboard.md": {
+    "mtime": 1793220850.0247056,
+    "seen": 1794476391.858067,
+    "ast_hash": "5179ece1239004320c406165821c093c",
+    "semantic_hash": "5179ece1239004320c406165821c093c"
+  },
+  ".github/workflows/ci.yml": {
+    "mtime": 1795676249.3996441,
+    "seen": 1795676350.5437343,
+    "ast_hash": "73844184d0c891b120de3b59b7a665f8",
+    "semantic_hash": ""
+  },
+  ".github/workflows/keepalive.yml": {
+    "mtime": 1795676254.6306155,
+    "seen": 1795676350.543739,
+    "ast_hash": "2a015378fed807eaeced50126b680fc5",
+    "semantic_hash": ""
+  },
+  "render.yaml": {
+    "mtime": 1795676246.4746091,
+    "seen": 1795676350.5437708,
+    "ast_hash": "b966b9752986d6f0fd791354db2e14ef",
+    "semantic_hash": ""
+  },
+  "tests/test_trading_audit_fixes.py": {
+    "mtime": 1795675932.3219373,
+    "seen": 1795676350.5437808,
+    "ast_hash": "bddb69bc6e05c9aafa46a2820e166677",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1795676247.6385474,
+    "seen": 1795676350.5437827,
+    "ast_hash": "d8f72b152b73c94c3ef2a26b1d587533",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1795676239.9100766,
+    "seen": 1795676350.5437884,
+    "ast_hash": "216212e6a90e90de239c08bc39d07229",
+    "semantic_hash": ""
+  }
+}

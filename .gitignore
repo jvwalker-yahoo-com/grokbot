@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+data/
+*.log
+.pytest_cache/
+.mypy_cache/
+trade_state*.json
+events.jsonl
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# graphify local machine pointers & cache (keep graph.json, graph.html, GRAPH_REPORT.md)
+graphify-out/cache/
+graphify-out/20*/
+graphify-out/.graphify_python
+graphify-out/.graphify_root
